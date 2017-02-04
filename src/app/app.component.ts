@@ -19,7 +19,7 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     this.playerService.getPlayers()
       .then(players => this.players = players)
-      .catch(error =>  console.log(<any>error));
+      .catch(error => console.log(error));
   }
 
   showPlayerForm(player: BasketballPlayer) {
@@ -34,7 +34,13 @@ export class AppComponent implements OnInit {
 
   removePlayer(player: BasketballPlayer) {
     this.playerService.deletePlayer(player)
-      .then(() => this.removePlayerFromList(player))
+      .then(() => {
+        var index = this.players.indexOf(player, 0);
+
+        if (index > -1) {
+            this.players.splice(index, 1);
+        }
+      })
       .catch(error => console.log(error));
   }
 
@@ -42,9 +48,7 @@ export class AppComponent implements OnInit {
     if(player) {
       if(this.isNewForm) {
         this.playerService.insertPlayer(player)
-          .then((insertedPlayer) => {
-            this.players.push(insertedPlayer)
-          })
+          .then((insertedPlayer) => this.players.push(insertedPlayer))
           .catch(error => console.log(error));
       }
       else {
@@ -56,13 +60,5 @@ export class AppComponent implements OnInit {
       this.isNewForm = false;
       player = null;
     }
-  }
-
-  private removePlayerFromList(player: BasketballPlayer) {
-      var index = this.players.indexOf(player, 0);
-
-      if (index > -1) {
-          this.players.splice(index, 1);
-      }
   }
 }

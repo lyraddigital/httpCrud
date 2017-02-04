@@ -3,7 +3,7 @@ export class BasketballPlayer {
     firstName: string;
     lastName: string;
     description: string;
-
+    
     constructor() {
         this.firstName = "";
         this.lastName = "";
