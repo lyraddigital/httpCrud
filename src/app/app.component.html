@@ -1,0 +1,39 @@
+<h1>NBA Players</h1>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Id</th>
+      <th>First Name</th>
+      <th>Last Name</th>
+      <th>Description</th>
+      <th>&nbsp;</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let player of players">
+      <td>{{player.id}}</td>
+      <td>{{player.firstName}}</td>
+      <td>{{player.lastName}}</td>
+      <td>{{player.description}}</td>
+      <td>
+        <button class="btn btn-info" (click)="showPlayerForm(player)"><i class="fa fa-edit"></i></button>
+        <button class="btn btn-danger" (click)="removePlayer(player)"><i class="fa fa-minus"></i></button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<button *ngIf="!newPlayer" class="btn btn-success" (click)="showPlayerForm(null)"><i class="fa fa-plus"></i></button>
+<br />
+<br />
+
+<form *ngIf="showForm">
+  <h2>Player Details</h2>
+  <p>First Name: <input type="text" name="firstName" [(ngModel)]="formPlayer.firstName" /></p>
+  <p>Last Name: <input type="text" name="lastName" [(ngModel)]="formPlayer.lastName" /></p>
+  <p>Description: <input type="text" name="description" [(ngModel)]="formPlayer.description" /></p>
+  <p>
+    <button type="button" class="btn btn-primary" (click)="savePlayer(formPlayer)">Submit</button>
+  </p>
+</form>
