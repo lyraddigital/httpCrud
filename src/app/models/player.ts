@@ -1,12 +1,11 @@
 export class BasketballPlayer {
-    id: number;
     firstName: string;
     lastName: string;
     description: string;
-
-    constructor() {
-        this.firstName = "";
-        this.lastName = "";
-        this.description = "";
+    
+    constructor(firstName: string, lastName: string, description: string) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.description = description;
     }
 }

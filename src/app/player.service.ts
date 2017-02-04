@@ -1,54 +1,43 @@
 import { Injectable } from '@angular/core';
-import { Http, Headers } from '@angular/http';
-
-import 'rxjs/add/operator/toPromise';
 
 import { BasketballPlayer } from './models/player';
 
 @Injectable()
 export class PlayerService {
-    private headers = new Headers({'Content-Type': 'application/json'});
-    private playersUrl = 'app/players';
-
-    constructor(private http:Http) {}
+    players: BasketballPlayer[] = [
+            new BasketballPlayer("Lebron", "James", "Captain of the Cavaliers and a 3 time champion."),
+            new BasketballPlayer("Kyrie", "Irving", "One of the best ball handlers and scorers in the NBA."),
+            new BasketballPlayer("Kevin", "Love", "A three point threat and a rebounding machine."),
+    ];
     
     getPlayers(): Promise<BasketballPlayer[]> {
-        return this.http.get(this.playersUrl)
-                        .toPromise()
-                        .then(response => response.json().data as BasketballPlayer[])
-                        .catch(this.handleError);
+        return new Promise(resolve => {
+            setTimeout(() => resolve(this.players), 2000);
+        });
     }
 
     deletePlayer(player: BasketballPlayer): Promise<any> {
-        let updateUrl = `${this.playersUrl}/${player.id}`;
-        return this.http.delete(updateUrl)
-                        .toPromise()
-                        .then(this.success)
-                        .catch(this.handleError);
+        return new Promise(resolve => {
+            setTimeout(() => {
+                var index = this.players.indexOf(player, 0);
+
+                if (index > -1) {
+                   this.players.splice(index, 1);
+                }
+            }, 1000);
+        });
     }
 
-    insertPlayer(player: BasketballPlayer): Promise<BasketballPlayer> {
-        return this.http.post(this.playersUrl, JSON.stringify(player), { headers: this.headers })
-                        .toPromise()
-                        .then(response => response.json().data as BasketballPlayer)
-                        .catch(this.handleError);
+    insertPlayer(player: BasketballPlayer): Promise<any> {
+        return new Promise(resolve => {
+            setTimeout(() => {
+                this.players.push(player);
+            }, 1000);
+        });
     }
 
     updatePlayer(player: BasketballPlayer): Promise<any> {
-        let updateUrl = `${this.playersUrl}/${player.id}`;
-
-        return this.http.put(updateUrl, JSON.stringify(player), { headers: this.headers })
-                        .toPromise()
-                        .then(this.success)
-                        .catch(this.handleError);
-    }
-
-    private success(): Promise<any> {
+        // We aren't doing anything for this.
         return Promise.resolve();
-    }
-
-    private handleError(error: any) {
-        console.error('An error occurred', error);
-        return Promise.reject(error.message || error);
     }
 }
